@@ -16,7 +16,8 @@ namespace LinqQuiz.Library
         /// </exception>
         public static int[] GetEvenNumbers(int exclusiveUpperLimit)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            return Enumerable.Range(1, exclusiveUpperLimit-1).Where(n => n % 2 == 0).ToArray();
         }
 
         /// <summary>
@@ -33,7 +34,19 @@ namespace LinqQuiz.Library
         /// </remarks>
         public static int[] GetSquares(int exclusiveUpperLimit)
         {
-            throw new NotImplementedException();
+            //can a random value be generated
+            if(exclusiveUpperLimit < 1) {
+                return new int[0];
+            }
+            var arr = Enumerable.Range(1, exclusiveUpperLimit - 1).Where(n => Math.Pow(n,2) % 7 == 0).ToArray();
+            //sort Array backwards
+            Array.Reverse(arr);
+            //Array quadrieren
+            for (int i = 0; i < arr.Length; i++) {
+                arr[i] = checked((int)Math.Pow(arr[i], 2));
+            }
+
+            return arr;
         }
 
         /// <summary>
@@ -52,7 +65,30 @@ namespace LinqQuiz.Library
         /// </remarks>
         public static FamilySummary[] GetFamilyStatistic(IReadOnlyCollection<IFamily> families)
         {
-            throw new NotImplementedException();
+            if(families == null) {
+                throw new ArgumentNullException();
+            }
+            List<FamilySummary> summary = new List<FamilySummary>();
+            foreach(var fam in families) {
+                //new Family
+                FamilySummary placeholder = new FamilySummary();
+                placeholder.FamilyID = fam.ID;
+                placeholder.NumberOfFamilyMembers = fam.Persons.Count;
+                //default age = 0 --> cause of the case if 0 persons are in the family
+                placeholder.AverageAge = 0;
+
+                //if there are 0 persons are in the family the average age is 0
+                if (fam.Persons.Count > 0) {
+                    foreach (var person in fam.Persons) {
+                        placeholder.AverageAge += person.Age;
+                    }
+                    placeholder.AverageAge = placeholder.AverageAge / fam.Persons.Count; 
+                }
+                //add the placeholder to the summary
+                summary.Add(placeholder);
+            }
+
+            return summary.ToArray();
         }
 
         /// <summary>
@@ -68,9 +104,12 @@ namespace LinqQuiz.Library
         /// letters that are contained in <paramref name="text"/> (i.e. there must not be a collection element
         /// with number of occurrences equal to zero.
         /// </remarks>
-        public static (char letter, int numberOfOccurrences)[] GetLetterStatistic(string text)
-        {
+        public static (char letter, int numberOfOccurrences)[] GetLetterStatistic(string text) {
             throw new NotImplementedException();
+            /*
+            Tuple<char, int> arr[] = new Tuple<char, int>[0];
+            return arr;
+            */
         }
     }
 }
