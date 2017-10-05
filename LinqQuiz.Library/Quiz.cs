@@ -105,11 +105,20 @@ namespace LinqQuiz.Library
         /// with number of occurrences equal to zero.
         /// </remarks>
         public static (char letter, int numberOfOccurrences)[] GetLetterStatistic(string text) {
-            throw new NotImplementedException();
-            /*
-            Tuple<char, int> arr[] = new Tuple<char, int>[0];
-            return arr;
-            */
+            if (text.Length < 1) {
+                return new(char letter, int number)[0];
+            }
+            //max possible letters (26)
+            (char letter, int number)[] arr = new(char letter, int number)[26];
+
+            //every character is in the anscii table
+            foreach(char a in text.ToUpper()) {
+                if (text.Contains(a) && (int)a >=65 && (int)a <= 90) {
+                    var characters = text.Where(n => n.Equals(a));
+                    arr[(int)a - 65] = (a, characters.Count());
+                }
+            }
+            return arr.Where(n => n.number > 0).ToArray();
         }
     }
 }
