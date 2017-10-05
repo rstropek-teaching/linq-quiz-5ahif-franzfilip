@@ -16,6 +16,9 @@ namespace LinqQuiz.Library
         /// </exception>
         public static int[] GetEvenNumbers(int exclusiveUpperLimit)
         {
+            // Tip: Never leave "dead code" in your code. Remove unnecessary code pieces instead
+            // of commenting them out. The poor guy who has to maintain your code will ask himself
+            // why you kept that throw-statement as a comment ;-)
             //throw new NotImplementedException();
             return Enumerable.Range(1, exclusiveUpperLimit-1).Where(n => n % 2 == 0).ToArray();
         }
@@ -38,6 +41,8 @@ namespace LinqQuiz.Library
             if(exclusiveUpperLimit < 1) {
                 return new int[0];
             }
+            // Your solution performs Math.Pow more times than necessary. Prefer embedding the `checked` keyword
+            // in your LINQ query so that you do not have to calculate the square twice.
             var arr = Enumerable.Range(1, exclusiveUpperLimit - 1).Where(n => Math.Pow(n,2) % 7 == 0).ToArray();
             //sort Array backwards
             Array.Reverse(arr);
